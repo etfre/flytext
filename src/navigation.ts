@@ -23,6 +23,6 @@ export function nextPos(document, text, position, increment) {
     let nextLineNum = position.line + increment;
     if (nextLineNum < 0 || nextLineNum >= document.lineCount) return null;
     let nextLine = document.lineAt(nextLineNum);
-    let lineChar = increment === 1 ? 0 : nextLine.range.end;
+    let lineChar = increment === 1 ? 0 : nextLine.range.end.character;
     return new vscode.Position(nextLineNum, lineChar);
 }

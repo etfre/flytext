@@ -11,14 +11,29 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "*"
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+        "commands": [
+            {
+                "command": "extension.enableFlyMode",
+                "title": "Enable Fly Mode"
+            },
+            {"command": "extension.disableFlyMode", "title": "Disable Fly Mode"}
+        ],
+        "keybindings": [
+            {
+                "command": "extension.enableFlyMode",
+                "key": "ctrl+f1",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.disableFlyMode",
+                "key": "ctrl+f2",
+                "when": "editorTextFocus"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "tsc -p ./",

@@ -15,13 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "flytext" is now active!');
     let disposable = vscode.commands.registerCommand('extension.enableFlyMode', () => {
         flyModeEnabled = true;
-        var editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            return; // No open text editor
-        }
-
-        var selection = editor.selection;
-        var text = editor.document.getText(selection);
+        state.reset();
     });
 
     context.subscriptions.push(disposable);

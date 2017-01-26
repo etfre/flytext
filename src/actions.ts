@@ -19,21 +19,20 @@ export function moveDirection(state) {
 }
 
 export function findCharacter(state) {
-    let editor = vscode.window.activeTextEditor;
-    let document = editor.document;
+    const editor = vscode.window.activeTextEditor;
+    const document = editor.document;
     let seenCount = 0;
-    let text = document.getText();
-    let position = editor.selection.active;
-    if (state.args.increment === -1) position = navigation.nextPos(document, text, position, state.args.increment)
-    let prevPos = position;
-    while (position !== null && seenCount < state.count) {
-        prevPos = position;
-        let char = text[document.offsetAt(position)];
+    const text = document.getText();
+    let nextPos = editor.selection.active;
+    if (state.args.increment === -1) nextPos = navigation.nextPos(document, nextPos, state.args.increment)
+    let position = nextPos;
+    while (nextPos !== null && seenCount < state.count) {
+        position = nextPos;
+        let char = text[document.offsetAt(nextPos)];
         if (char === state.args.char) seenCount++;
-        position = navigation.nextPos(document, text, position, state.args.increment);
+        nextPos = navigation.nextPos(document, nextPos, state.args.increment);
     }
-    if (state.args.offsetBy1) prevPos = prevPos.translate(0, 1);
-    const anchor = state.args.select ? editor.selection.anchor : prevPos;
-    editor.selections = [new vscode.Selection(anchor, prevPos)]
-    let x = 4;
+    if (state.args.offsetBy1) position = position.translate(0, 1);
+    const anchor = state.args.select ? editor.selection.anchor : position;
+    editor.selections = [new vscode.Selection(anchor, position)]
 }

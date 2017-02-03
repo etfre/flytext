@@ -51,11 +51,13 @@ export class InputState {
         this.action = {
             'd': actions.DIRECTION,
             'f': actions.FIND,
+            's': actions.MAYBE_SPACE,
         }[ch];
     }
 
     readArgs() {
         let selectCh;
+        let ch: string;
         switch (this.action) {
             case actions.DIRECTION:
                 this.args.motion = navigation.motionMap[this.next()];
@@ -69,6 +71,11 @@ export class InputState {
                 this.args.char = this.next();
                 selectCh = this.next();
                 this.args.select = selectCh === 's' || selectCh === 'c' && !vscode.window.activeTextEditor.selection.isEmpty;
+                break;
+            case actions.MAYBE_SPACE:
+                ch = this.next();
+                this.args.ahead = ch === 'a';
+                break;
         }
     }
 

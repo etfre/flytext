@@ -3,10 +3,12 @@ import * as navigation from '../src/navigation';
 
 export const DIRECTION = 'direction';
 export const FIND = 'find';
+export const MAYBE_SPACE = 'maybe space'
 
 const actionMap = {}
 actionMap[DIRECTION] = moveDirection
 actionMap[FIND] = findCharacter
+actionMap[MAYBE_SPACE] = maybeSpace
 
 export function perform(state) {
     actionMap[state.action](state)
@@ -35,4 +37,27 @@ export function findCharacter(state) {
     if (state.args.offsetBy1) position = position.translate(0, 1);
     const anchor = state.args.select ? editor.selection.anchor : position;
     editor.selections = [new vscode.Selection(anchor, position)]
+}
+
+export function maybeSpace(state) {
+    const editor = vscode.window.activeTextEditor;
+    const document = editor.document;
+    const text = document.getText();
+    let pos = editor.selection.active;
+    let line = document.lineAt(pos.line);
+    let insertSpace = false as boolean;
+    if (state.args.forward) {
+        if (pos.character >= line.range.end.character) {
+            insertSpace = true;
+        }
+        else {
+            insertSpace = text[document.offsetAt(pos)] !== ' ';
+        }
+    }
+    else {
+        if (pos.character <= line.firstNonWhitespaceCharacterIndex) return;
+        pos = navigation.nextPos(document, pos, -1);
+        insertSpace = text[document.offsetAt(pos)] !== ' ';
+    }
+    if (insertSpace) vscode.commands.executeCommand('default:type', {text: ' '});
 }

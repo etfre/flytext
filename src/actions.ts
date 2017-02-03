@@ -47,15 +47,9 @@ export function maybeSpace(state) {
     let line = document.lineAt(pos.line);
     let insertSpace = false as boolean;
     if (state.args.forward) {
-        if (pos.character >= line.range.end.character) {
-            insertSpace = true;
-        }
-        else {
-            insertSpace = text[document.offsetAt(pos)] !== ' ';
-        }
+        insertSpace = text[document.offsetAt(pos)] !== ' ';
     }
-    else {
-        if (pos.character <= line.firstNonWhitespaceCharacterIndex) return;
+    else if (pos.character > line.firstNonWhitespaceCharacterIndex) {
         pos = navigation.nextPos(document, pos, -1);
         insertSpace = text[document.offsetAt(pos)] !== ' ';
     }

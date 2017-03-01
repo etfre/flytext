@@ -5,6 +5,10 @@ exports.motionMap = {
     'd': 'right',
     's': 'down',
     'a': 'left',
+    'f': 'wrappedLineFirstNonWhitespaceCharacter',
+    'l': 'wrappedLineLastNonWhitespaceCharacter',
+    'z': 'wrappedLineStart',
+    'e': 'wrappedLineEnd',
 };
 function nextPos(document, position, increment) {
     let line = document.lineAt(position.line);

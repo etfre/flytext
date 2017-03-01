@@ -5,6 +5,10 @@ export const motionMap = {
     'd': 'right',
     's': 'down',
     'a': 'left',
+    'f': 'wrappedLineFirstNonWhitespaceCharacter',
+    'l': 'wrappedLineLastNonWhitespaceCharacter',
+    'z': 'wrappedLineStart',
+    'e': 'wrappedLineEnd',
 }
 
 export function nextPos(document: vscode.TextDocument, position: vscode.Position, increment: number) {
